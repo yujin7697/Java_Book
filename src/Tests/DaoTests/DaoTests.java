@@ -8,8 +8,10 @@ import java.util.List;
 import org.junit.Test;
 
 import Domain.Common.Dao.BookDao;
+import Domain.Common.Dao.LendDao;
 import Domain.Common.Dao.MemberDao;
 import Domain.Common.Dto.BookDto;
+import Domain.Common.Dto.LendDto;
 import Domain.Common.Dto.MemberDto;
 
 public class DaoTests {
@@ -106,5 +108,17 @@ public class DaoTests {
 		list.stream().forEach((dto)->{System.out.println(dto);});
 	}
 	
-
+//	LendDao-------------------------------------------------------
+	@Test
+	public void LendDaoTest1_insert() throws Exception{
+		LendDao dao = new LendDao();
+		assertNotNull(dao);
+		
+		LendDto dto = new LendDto();
+		dto.setBookcode(1111);
+		dto.setId("user1");
+		int result = dao.insert(dto);
+		
+		assertEquals(1,result);
+	}
 }

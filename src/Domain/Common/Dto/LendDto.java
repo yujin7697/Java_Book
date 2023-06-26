@@ -3,9 +3,8 @@ package Domain.Common.Dto;
 import java.util.Date;
 
 public class LendDto {
-	private int lend;
+	private int lendId;
 	private int bookcode;
-	private int islend;
 	private String id;
 	private Date lendDate;
 	private Date returnDate; // 7일후 반납예정일 계산
@@ -15,11 +14,10 @@ public class LendDto {
 	}
 
 //	인자 받는 생성자
-	public LendDto(int lend, int bookcode, int islend, String id, Date lendDate, Date returnDate) {
+	public LendDto(int lendId, int bookcode, String id, Date lendDate, Date returnDate) {
 		super();
-		this.lend = lend;
+		this.lendId = lendId;
 		this.bookcode = bookcode;
-		this.islend = islend;
 		this.id = id;
 		this.lendDate = lendDate;
 		this.returnDate = returnDate;
@@ -28,17 +26,17 @@ public class LendDto {
 //	toString
 	@Override
 	public String toString() {
-		return "LendDto [lend=" + lend + ", bookcode=" + bookcode + ", islend=" + islend + ", id=" + id + ", lendDate="
+		return "LendDto [lendId=" + lendId + ", bookcode=" + bookcode  + ", id=" + id + ", lendDate="
 				+ lendDate + ", returnDate=" + returnDate + "]";
 	}
 
 //	getter and setter
-	public int getLend() {
-		return lend;
+	public int getLendId() {
+		return lendId;
 	}
 
-	public void setLend(int lend) {
-		this.lend = lend;
+	public void setLendId(int lend) {
+		this.lendId = lendId;
 	}
 
 	public int getBookcode() {
@@ -49,13 +47,6 @@ public class LendDto {
 		this.bookcode = bookcode;
 	}
 
-	public int getIslend() {
-		return islend;
-	}
-
-	public void setIslend(int islend) {
-		this.islend = islend;
-	}
 
 	public String getId() {
 		return id;
