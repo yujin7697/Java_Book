@@ -48,19 +48,19 @@ public class MemberDao {
 		
 	}
 	
-	public List<BookDto> select() throws Exception{
-		List<BookDto> list = new ArrayList();
-		BookDto dto=null;
-		pstmt=conn.prepareStatement("select * from tbl_book");
+	public List<MemberDto> select() throws Exception{
+		List<MemberDto> list = new ArrayList();
+		MemberDto dto=null;
+		pstmt=conn.prepareStatement("select * from tbl_member");
 		rs=pstmt.executeQuery();
 		if(rs!=null)
 		{
 			while(rs.next()) {
-				dto=new BookDto();
-				dto.setBookcode(rs.getInt("bookcode"));
-				dto.setBookname(rs.getString("bookname"));
-				dto.setPublisher(rs.getString("publisher"));
-				dto.setIsbn(rs.getString("isbn"));
+				dto=new MemberDto();
+				dto.setId(rs.getString("id"));
+				dto.setPw(null);
+				dto.setUsername(rs.getString("username"));
+				dto.setRole(rs.getString("role"));
 				list.add(dto);
 			}
 			rs.close();
@@ -69,34 +69,32 @@ public class MemberDao {
 			
 		return list;
 	}
-	public List<BookDto> select(int bookcode) throws Exception{
-		List<BookDto> list = new ArrayList();
-		BookDto dto=null;
-		pstmt=conn.prepareStatement("select * from tbl_book where bookcode=?");
-		pstmt.setInt(1, bookcode);
+	public MemberDto select(String id) throws Exception{
+		MemberDto dto=null;
+		pstmt=conn.prepareStatement("select * from tbl_member where id=?");
+		pstmt.setString(1, id);
 		rs=pstmt.executeQuery();
 		if(rs!=null)
 		{
-				rs.next();
-				dto=new BookDto();
-				dto.setBookcode(rs.getInt("bookcode"));
-				dto.setBookname(rs.getString("bookname"));
-				dto.setPublisher(rs.getString("publisher"));
-				dto.setIsbn(rs.getString("isbn"));
-				list.add(dto);		
-				rs.close();
+			dto=new MemberDto();
+			dto.setId(rs.getString("id"));
+			dto.setPw(rs.getString("pw"));
+			dto.setUsername(rs.getString("username"));
+			dto.setRole(rs.getString("role"));
+			
+			rs.close();
 		}
 		pstmt.close();
-		return list;
-	}	
-	
-	
-	public List<BookDto> select(String keyword){
-		return null;
+			
+		return dto;
 	}
-	public List<BookDto> select(String keyfield,String keyword){
-		return null;
-	}
+	
+//	public List<BookDto> select(String keyword){
+//		return null;
+//	}
+//	public List<BookDto> select(String keyfield,String keyword){
+//		return null;
+//	}
 	public int update(MemberDto dto) throws Exception{
 		pstmt=conn.prepareStatement("update tbl_member set pw=?,username=?,role=? where id=?");
 		pstmt.setString(1,dto.getPw());

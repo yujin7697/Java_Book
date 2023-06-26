@@ -57,23 +57,23 @@ public class BookDao {
 		}
 		return list;
 	}
-	public List<BookDto> select(int bookcode) throws Exception{
-		List<BookDto> list = new ArrayList();
+	public BookDto select(int bookcode) throws Exception{
+
 		BookDto dto = null;
 		pstmt=conn.prepareStatement("select * from tbl_book where bookcode=?");
 		pstmt.setInt(1, bookcode);
 		rs=pstmt.executeQuery();
 		if(rs!=null) {
-				rs.next();
-				dto=new BookDto();
-				dto.setBookcode(rs.getInt("bookcode"));
-				dto.setBookname(rs.getString("bookname"));
-				dto.setPublisher(rs.getString("publisher"));
-				dto.setIsbn(rs.getString("isbn"));
-				list.add(dto);
-			
+			rs.next();
+			dto=new BookDto();
+			dto.setBookcode(rs.getInt("bookcode"));
+			dto.setBookname(rs.getString("bookname"));
+			dto.setPublisher(rs.getString("publisher"));
+			dto.setIsbn(rs.getString("isbn"));
+			rs.close();
 		}
-		return list;
+		pstmt.close();
+		return dto;
 	}
 	public List<BookDto> select(String keyword){
 		return null;
