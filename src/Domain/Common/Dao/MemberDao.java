@@ -1,0 +1,123 @@
+package Domain.Common.Dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import Domain.Common.Dto.BookDto;
+import Domain.Common.Dto.MemberDto;
+
+public class MemberDao {
+	private String id;
+	private String pw;
+	private String url;
+	
+	private Connection conn;
+	private PreparedStatement pstmt;
+	private ResultSet rs;
+	
+	public MemberDao(){
+		id="root";
+		pw="1234";
+		url="jdbc:mysql://localhost:3306/bookdb";
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn=DriverManager.getConnection(url,id,pw);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//CRUD
+	public int insert(MemberDto dto) throws Exception{
+		
+		pstmt=conn.prepareStatement("insert into tbl_member values(?,?,?,?)");
+		pstmt.setString(1, dto.getId());
+		pstmt.setString(2, dto.getPw());
+		pstmt.setString(3,dto.getUsername());
+		pstmt.setString(4, dto.getRole());
+		int result=pstmt.executeUpdate();
+		pstmt.close();
+		
+		return result;
+		
+	}
+	
+	public List<BookDto> select() throws Exception{
+		List<BookDto> list = new ArrayList();
+		BookDto dto=null;
+		pstmt=conn.prepareStatement("select * from tbl_book");
+		rs=pstmt.executeQuery();
+		if(rs!=null)
+		{
+			while(rs.next()) {
+				dto=new BookDto();
+				dto.setBookcode(rs.getInt("bookcode"));
+				dto.setBookname(rs.getString("bookname"));
+				dto.setPublisher(rs.getString("publisher"));
+				dto.setIsbn(rs.getString("isbn"));
+				list.add(dto);
+			}
+			rs.close();
+		}
+		pstmt.close();
+			
+		return list;
+	}
+	public List<BookDto> select(int bookcode) throws Exception{
+		List<BookDto> list = new ArrayList();
+		BookDto dto=null;
+		pstmt=conn.prepareStatement("select * from tbl_book where bookcode=?");
+		pstmt.setInt(1, bookcode);
+		rs=pstmt.executeQuery();
+		if(rs!=null)
+		{
+				rs.next();
+				dto=new BookDto();
+				dto.setBookcode(rs.getInt("bookcode"));
+				dto.setBookname(rs.getString("bookname"));
+				dto.setPublisher(rs.getString("publisher"));
+				dto.setIsbn(rs.getString("isbn"));
+				list.add(dto);		
+				rs.close();
+		}
+		pstmt.close();
+		return list;
+	}	
+	
+	
+	public List<BookDto> select(String keyword){
+		return null;
+	}
+	public List<BookDto> select(String keyfield,String keyword){
+		return null;
+	}
+	public int update(MemberDto dto) throws Exception{
+		pstmt=conn.prepareStatement("update tbl_member set pw=?,username=?,role=? where id=?");
+		pstmt.setString(1,dto.getPw());
+		pstmt.setString(2,dto.getUsername() );
+		pstmt.setString(3,dto.getRole());
+		pstmt.setString(4,dto.getId() );
+		int result=pstmt.executeUpdate();
+		pstmt.close();
+		return result;
+	}
+	public int delete(String id)  throws Exception{
+		pstmt=conn.prepareStatement("delete from tbl_member where id=?");
+		pstmt.setString(1, id);
+		int result=pstmt.executeUpdate();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+}
