@@ -10,35 +10,34 @@ public class FrontController {
 //	사용자 요구사항 API Controller에 맞게 저장
 //	/req_bookinfo에 대한 요구사랑 BookController 전달
 	void init() {
-//		도서정보 요구사항 -Controller Mapping
-		map.put("/book_select", new BookController());
-		map.put("/book_insert", new BookController());		
-		map.put("/book_update", new BookController());		
-		map.put("/book_delete", new BookController());	
+//		도서정보 요구사항 - Controller Mapping
+//		/RequestUri ServiceNo Param
+		map.put("/book", new BookController());
+		map.put("/member", new MemberController());
+		map.put("/lend", new LendController());	
 		
-		map.put("/Member_select", new MemberController());
-		map.put("/Member_insert", new MemberController());		
-		map.put("/Member_update", new MemberController());		
-		map.put("/Member_delete", new MemberController());	
-		
-		map.put("/lend_select", new LendController());
-		map.put("/lend_insert", new LendController());		
-		map.put("/lend_update", new LendController());		
-		map.put("/lend_delete", new LendController());	
 	}
 	public FrontController(){
 		init();
 	}
 //	request에 맞는 Controller를 추출, 해당 컨트롤러 실행
-	public void execute(String request,Object[] param) {
+//	request, ServiceNo(1 select, 2 insert, 3 update, 4 delete) , Param
+	public void execute(String request, int ServiceNo, Map<String,Object> param) {
 		Object controller = map.get(request);
 		if(controller instanceof BookController) {
+			
+			BookController down = (BookController)controller;
+			down.execute(ServiceNo,param);
 			System.out.println("BOOKCONTROLLER!");
 		}
 		else if(controller instanceof LendController) {
+			LendController down = (LendController)controller;
+			down.execute(ServiceNo,param);
 			System.out.println("LENDCONTROLLER!");
 		}
 		else if(controller instanceof MemberController) {
+			MemberController down = (MemberController)controller;
+			down.execute(ServiceNo,param);
 			System.out.println("MEMBERCONTROLLER!");
 		}
 		else {
