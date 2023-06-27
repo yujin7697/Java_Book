@@ -70,12 +70,16 @@ public class MemberDao {
 		return list;
 	}
 	public MemberDto select(String id) throws Exception{
+		System.out.println("Dao's Select : " + id);
+
 		MemberDto dto=null;
 		pstmt=conn.prepareStatement("select * from tbl_member where id=?");
 		pstmt.setString(1, id);
 		rs=pstmt.executeQuery();
+		
 		if(rs!=null)
-		{
+		{	
+			rs.next();
 			dto=new MemberDto();
 			dto.setId(rs.getString("id"));
 			dto.setPw(rs.getString("pw"));

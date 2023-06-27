@@ -3,9 +3,9 @@ package Domain.Common.Dto;
 import java.util.Date;
 
 public class LendDto {
-	private int lendId;
+	private int lendId;		//Auto_Increment
 	private int bookcode;
-	private String id;
+	private String id;		//userid
 	private Date lendDate;
 	private Date returnDate; // 7일후 반납예정일 계산
 

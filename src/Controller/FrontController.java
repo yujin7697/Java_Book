@@ -9,7 +9,7 @@ public class FrontController {
 //	초기값 설정
 //	사용자 요구사항 API Controller에 맞게 저장
 //	/req_bookinfo에 대한 요구사랑 BookController 전달
-	void init() {
+	private void init() {
 //		도서정보 요구사항 - Controller Mapping
 //		/RequestUri ServiceNo Param
 		map.put("/book", new BookController());

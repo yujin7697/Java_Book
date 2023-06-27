@@ -46,4 +46,14 @@ public class ControllerTests {
 		param.put("isbn", "111-1111");
 		fcontroller.execute("/book",2,param);
 	}
+	@Test
+	public void test3_FrontController_SubController_Param() {
+		FrontController fcontroller = new FrontController();
+		Map<String,Object> param = new HashMap();
+		param.put("id", "유진 기욤미");
+		param.put("pw", "경민 예뿌니");
+		param.put("username", "성진 멍청이");
+		param.put("role", "영민 바보");
+		fcontroller.execute("/member", 2, param);
+	}
 }
