@@ -33,7 +33,8 @@ public class MemberService {
 		return false;
 	}
 //	회원 조회하기(전체) -- 사서
-	public List<MemberDto> memberSearch(String role) throws Exception{
+	public List<MemberDto> memberSearch(String sid) throws Exception{
+		String role = this.getRole(sid);
 		if(role.equals("ROLE_MEMBER"))
 			return dao.select();
 		return null;

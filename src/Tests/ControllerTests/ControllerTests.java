@@ -10,7 +10,9 @@ import org.junit.Test;
 
 import Controller.BookController;
 import Controller.FrontController;
+import Controller.MemberController;
 import Domain.Common.Dto.BookDto;
+import Domain.Common.Dto.MemberDto;
 
 public class ControllerTests {
 
@@ -67,5 +69,24 @@ public class ControllerTests {
 		List<BookDto> list =(List<BookDto>)result.get("result");
 		
 		list.stream().forEach((dto)->{System.out.println(dto);});
+	}
+	@Test
+	public void test4_MemberController() throws Exception{
+		MemberController controller = new MemberController();
+//		로그인
+		Map<String,Object> param = new HashMap();
+		param.put("id", "member9");
+		param.put("pw", "1234");
+		
+//		SID발급
+		Map<String,Object> result = controller.execute(5, param);
+		String sid = (String)result.get("result");
+		System.out.println("로그인 성공! Sid : " + sid);
+		
+//		전체멤버조회
+		param.put("sid", sid);
+		Map<String,Object> result2 = controller.execute(1, param);
+		List<MemberDto> list = (List<MemberDto>)result2.get("result");
+		list.stream().forEach((dto) -> {System.out.println(dto);});
 	}
 }
