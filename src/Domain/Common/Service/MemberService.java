@@ -15,8 +15,14 @@ public class MemberService {
 	
 	private MemberDao dao;
 	
-	public MemberService() {
-		dao = new MemberDao();
+	private static MemberService instance;
+	public static MemberService getInstance() {
+		if(instance == null) instance = new MemberService();
+		return instance;
+	}
+	
+	private MemberService() {
+		dao = MemberDao.getInstance();
 		sessionMap = new HashMap();
 	}
 	

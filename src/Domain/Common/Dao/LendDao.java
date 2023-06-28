@@ -19,7 +19,13 @@ public class LendDao {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
-	public LendDao(){
+	private static LendDao instance;
+	public static LendDao getInstance() {
+		if(instance == null) instance = new LendDao();
+		return instance;
+	}
+	
+	private LendDao(){
 		id="root";
 		pw="1234";
 		url="jdbc:mysql://localhost:3306/bookdb";

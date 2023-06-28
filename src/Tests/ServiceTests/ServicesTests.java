@@ -2,6 +2,7 @@ package Tests.ServiceTests;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import org.junit.Test;
@@ -38,13 +39,18 @@ public class ServicesTests {
 	@Test
 	public void test3_LendService_ReqLend() throws Exception{
 		LendService lendService = new LendService();
+		BookService bookService = new BookService();
+		MemberService memService = new MemberService();
 		assertNotNull(lendService);
+		
+		lendService.setBookService(bookService);
+		lendService.setMemberService(memService);
 //		로그인 
-		String login_sid =lendService.memService.login("member9", "1234");
+		String login_sid =memService.login("member9", "1234");
 		System.out.println("login_sid : " + login_sid);
 		
 //		대여요청
-		boolean islend = lendService.reqLend(login_sid,"user1234",1);
+		boolean islend = lendService.reqLend(login_sid,"user1",1);
 	}
 
 }

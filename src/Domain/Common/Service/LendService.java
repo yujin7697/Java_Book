@@ -7,13 +7,28 @@ import Domain.Common.Dto.MemberDto;
 
 public class LendService {
 	
-	public MemberService memService;
-	BookService bookService;
-	LendDao dao;
-	public LendService(){
-		memService = new MemberService();
-		bookService = new BookService();
-		dao = new LendDao();
+	private MemberService memService;
+	private BookService bookService;
+	private LendDao dao;
+	
+	private static LendService instance;
+	public static LendService getInstance() {
+		if(instance == null) instance = new LendService();
+		return instance;
+	}
+	
+	private LendService(){
+		dao = LendDao.getInstance();
+		memService = MemberService.getInstance();
+		bookService = BookService.getInstance();
+	}
+	
+//	외부로부터 Service받기
+	public void setMemberService(MemberService memService) {
+		this.memService = memService;
+	}
+	public void setBookService(BookService bookService) {
+		this.bookService = bookService;
 	}
 
 	public boolean reqLend(String sid, String userid, int bookcode) throws Exception{

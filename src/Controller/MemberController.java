@@ -3,8 +3,15 @@ package Controller;
 import java.util.Map;
 
 import Domain.Common.Dto.MemberDto;
+import Domain.Common.Service.MemberService;
 
 public class MemberController {
+	
+	private MemberService service;
+	MemberController(){
+		service = MemberService.getInstance();
+	}
+	
 //	1 Select(전체조회), 2 Insert, 3 Update, 4 Delete , 5 로그인, 6 로그아웃
 	public void execute(int serviceNo, Map<String,Object> param) {
 		if(serviceNo==1) {

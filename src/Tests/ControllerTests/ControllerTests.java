@@ -3,11 +3,14 @@ package Tests.ControllerTests;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 
+import Controller.BookController;
 import Controller.FrontController;
+import Domain.Common.Dto.BookDto;
 
 public class ControllerTests {
 
@@ -55,5 +58,14 @@ public class ControllerTests {
 		param.put("username", "성진 멍청이");
 		param.put("role", "영민 바보");
 		fcontroller.execute("/member", 2, param);
+	}
+	@Test
+	public void test3_BookController() throws Exception{
+		BookController controller = new BookController();
+		
+		Map<String,Object> result = controller.execute(1,null);
+		List<BookDto> list =(List<BookDto>)result.get("result");
+		
+		list.stream().forEach((dto)->{System.out.println(dto);});
 	}
 }

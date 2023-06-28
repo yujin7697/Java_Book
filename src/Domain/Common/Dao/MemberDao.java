@@ -19,7 +19,13 @@ public class MemberDao {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
-	public MemberDao(){
+	private static MemberDao instance;
+	public static MemberDao getInstance() {
+		if(instance == null) instance = new MemberDao();
+		return instance;
+	}
+	
+	private MemberDao(){
 		id="root";
 		pw="1234";
 		url="jdbc:mysql://localhost:3306/bookdb";
