@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import Domain.Common.Dto.BookDto;
 import Domain.Common.Service.BookService;
+import Domain.Common.Service.LendService;
 import Domain.Common.Service.MemberService;
 import Domain.Common.Service.Auth.Session;
 
@@ -33,6 +34,17 @@ public class ServicesTests {
 		Session mySession = service.sessionMap.get(sid);
 		System.out.println("mySession : " + mySession );
 		
+	}
+	@Test
+	public void test3_LendService_ReqLend() throws Exception{
+		LendService lendService = new LendService();
+		assertNotNull(lendService);
+//		로그인 
+		String login_sid =lendService.memService.login("member9", "1234");
+		System.out.println("login_sid : " + login_sid);
+		
+//		대여요청
+		boolean islend = lendService.reqLend(login_sid,"user1234",1);
 	}
 
 }

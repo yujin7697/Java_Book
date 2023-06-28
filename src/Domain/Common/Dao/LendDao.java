@@ -46,19 +46,20 @@ public class LendDao {
 		
 	}
 	
-	public List<MemberDto> select() throws Exception{
-		List<MemberDto> list = new ArrayList();
-		MemberDto dto=null;
-		pstmt=conn.prepareStatement("select * from tbl_member");
+	public List<LendDto> select() throws Exception{
+		List<LendDto> list = new ArrayList();
+		LendDto dto=null;
+		pstmt=conn.prepareStatement("select * from tbl_lend");
 		rs=pstmt.executeQuery();
 		if(rs!=null)
 		{
 			while(rs.next()) {
-				dto=new MemberDto();
+				dto=new LendDto();
+				dto.setLendId(rs.getInt("lendId"));
+				dto.setBookcode(rs.getInt("bookcode"));
 				dto.setId(rs.getString("id"));
-				dto.setPw(null);
-				dto.setUsername(rs.getString("username"));
-				dto.setRole(rs.getString("role"));
+				dto.setLendDate(rs.getDate("lendDate"));
+				dto.setReturnDate(rs.getDate("returnDate"));
 				list.add(dto);
 			}
 			rs.close();
@@ -67,19 +68,20 @@ public class LendDao {
 			
 		return list;
 	}
-	public MemberDto select(String id) throws Exception{
-		MemberDto dto=null;
-		pstmt=conn.prepareStatement("select * from tbl_member where id=?");
-		pstmt.setString(1, id);
+	public LendDto select(int bookcode) throws Exception{
+		LendDto dto=null;
+		pstmt=conn.prepareStatement("select * from tbl_lend where bookcode=?");
+		pstmt.setInt(1, bookcode);
 		rs=pstmt.executeQuery();
-		if(rs!=null)
+		if(rs!=null && rs.isBeforeFirst())
 		{
-			dto=new MemberDto();
+			rs.next();
+			dto=new LendDto();
+			dto.setLendId(rs.getInt("lendId"));
+			dto.setBookcode(rs.getInt("bookcode"));
 			dto.setId(rs.getString("id"));
-			dto.setPw(rs.getString("pw"));
-			dto.setUsername(rs.getString("username"));
-			dto.setRole(rs.getString("role"));
-			
+			dto.setLendDate(rs.getDate("lendDate"));
+			dto.setReturnDate(rs.getDate("returnDate"));
 			rs.close();
 		}
 		pstmt.close();

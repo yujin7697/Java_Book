@@ -21,29 +21,46 @@ public class MemberService {
 	}
 	
 //	회원 가입하기
-	boolean memberJoin(MemberDto dto) throws Exception{
+	public boolean memberJoin(MemberDto dto) throws Exception{
 		int result = dao.insert(dto);
 		if(result>0) return true;
 		return false;
 	}
-//	회원 조회하기(전체)
-	List<MemberDto> memberSearch() throws Exception{
-		return dao.select();
+//	회원 조회하기(전체) -- 사서
+	public List<MemberDto> memberSearch(String role) throws Exception{
+		if(role.equals("ROLE_MEMBER"))
+			return dao.select();
+		return null;
 	}
-//	회원 조회하기(한 회원)
-	MemberDto memberSearch(String id) throws Exception{
-		return dao.select(id);
+//	회원 조회(한명) - 사서
+	public MemberDto memberSearchOne(String role, String id) throws Exception{
+		if(role.equals("ROLE_MEMBER"))
+			return dao.select(id);
+		return null;
 	}
-//	회원 정보수정
-	boolean memberUpdate(MemberDto dto) throws Exception{
-		int result = dao.update(dto); 
-		if(result>0) return true;
+//	회원 조회하기(한 회원) -- 로그인한 회원만
+	public MemberDto memberSearch(String id,String sid) throws Exception{
+		Session session = sessionMap.get(sid);
+		if(session!=null && session.getId().equals(id))
+			return dao.select(id);
+		return null;
+	}
+//	회원 정보수정 -- 본인확인
+	public boolean memberUpdate(MemberDto dto, String sid) throws Exception{
+		Session session = sessionMap.get(sid);
+		if(session!=null && session.getId().equals(dto.getId())) {
+			int result = dao.update(dto); 
+			if(result>0) return true;	
+		}
 		return false;
 	}
 //	회원 삭제하기
-	boolean memberDelete(String id) throws Exception{
-		int result = dao.delete(id);
-		if(result>0) return true;
+	public boolean memberDelete(String id,String sid) throws Exception{
+		Session session = sessionMap.get(sid);
+		if(session!=null && session.getId().equals(id)){
+			int result = dao.delete(id);
+			if(result>0) return true;
+		}
 		return false;
 	}
 //	로그인
@@ -66,7 +83,20 @@ public class MemberService {
 		return sid;
 	}
 //	로그아웃
-	public String logout(String id) {
+	public Boolean logout(String id,String sid) {
+		Session session = sessionMap.get(sid);
+		if(!session.getId().equals(id)) {
+			System.out.println("[ERROR] ID가 일치하지 않습니다.");
+			return false;
+		}
+		sessionMap.remove(sid);
+		return true;
+	}
+//	역할 반환 함수
+	public String getRole(String sid) {
+		Session session = sessionMap.get(sid);
+		if(session!=null) return session.getRole();
 		return null;
+			
 	}
 }
