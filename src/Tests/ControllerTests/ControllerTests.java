@@ -61,6 +61,7 @@ public class ControllerTests {
 		param.put("role", "영민 바보");
 		fcontroller.execute("/member", 2, param);
 	}
+	
 	@Test
 	public void test3_BookController() throws Exception{
 		BookController controller = new BookController();

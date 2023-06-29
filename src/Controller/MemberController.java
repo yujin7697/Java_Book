@@ -120,15 +120,15 @@ public class MemberController {
 			}
 //			3 서비스 실행
 //			MemberDto dto = new MemberDto(id,pw,null,null);
+			Map<String,Object> result = new HashMap();
 			String sid = null;
 			try {
-				sid = service.login(id, pw);
+				result = service.login(id, pw);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 //			4 View로 전달
-			Map<String,Object> result = new HashMap();
-			result.put("result", sid);
+			
 			return result;
 		}
 		else if(serviceNo==6) {

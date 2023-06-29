@@ -71,7 +71,7 @@ public class MemberService {
 		return false;
 	}
 //	로그인
-	public String login(String id, String pw) throws Exception{
+	public Map<String, Object> login(String id, String pw) throws Exception{
 //		1 ID/PW 체크 -> Dao 전달받은 id와 일치하는 정보를 가져와서 pw일치 확인
 		MemberDto dbDto = dao.select(id);
 		if(dbDto == null) {
@@ -87,7 +87,10 @@ public class MemberService {
 		Session session = new Session(sid,dbDto.getId(),dbDto.getRole());
 		sessionMap.put(sid, session);
 //		3 세션에 대한 정보를 클라이언트가 접근할 수 있도록 하는 세션 구별 Id(Session Cookie) 전달
-		return sid;
+		Map<String,Object> result = new HashMap();
+		result.put("sid", sid);
+		result.put("role", dbDto.getRole());
+		return result;
 	}
 //	로그아웃
 	public Boolean logout(String id,String sid) {

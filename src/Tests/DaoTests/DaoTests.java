@@ -23,6 +23,7 @@ public class DaoTests {
 		assertNotNull(dao);
 	}
 	
+	
 	@Test
 	public void BookDaoTest2_insert() throws Exception {
 		BookDao dao = new BookDao();
